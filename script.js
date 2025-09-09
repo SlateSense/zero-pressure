@@ -2,6 +2,95 @@
 let noClickCount = 0;
 let selectedRating = 0;
 
+// Music Player Variables
+let currentSongIndex = 0;
+let isPlaying = false;
+let isShuffled = false;
+let playlistStartTime = null;
+let tasteMessageShown = false;
+let audio = null;
+
+// Playlist with your favorite artists (in your preferred order)
+const playlist = [
+    {
+        name: "Baarishein",
+        artist: "Anuv Jain",
+        url: "./music/Baarishein.m4a",
+        message: "Like the rain, my feelings for you are pure and endless 🌧️",
+        emoji: "🌧️"
+    },
+    {
+        name: "Jo Tum Mere Ho",
+        artist: "Anuv Jain",
+        url: "./music/Jo-Tum-Mere-Ho.m4a",
+        message: "If you were mine, everything would be perfect 💕",
+        emoji: "💕"
+    },
+    {
+        name: "Faasle",
+        artist: "Anuv Jain",
+        url: "./music/Faasle.m4a",
+        message: "Distances don't matter when hearts are connected 💞",
+        emoji: "💞"
+    },
+    {
+        name: "Na Pata Mujhe",
+        artist: "Anuv Jain",
+        url: "./music/Na-Pata-Mujhe.m4a",
+        message: "I don't know what this feeling is, but it's beautiful 🌈",
+        emoji: "🌈"
+    },
+    {
+        name: "Husn",
+        artist: "Anuv Jain",
+        url: "./music/Husn.m4a",
+        message: "I ain't asking for your body... just your heart 💕",
+        emoji: "💖"
+    },
+    {
+        name: "Haseen",
+        artist: "Anuv Jain",
+        url: "./music/Haseen.m4a",
+        message: "You're the most beautiful thing I've ever seen 🌹",
+        emoji: "🌹"
+    },
+    {
+        name: "Aaoge Tum Kabhi",
+        artist: "The Local Train",
+        url: "./music/Aaoge-Tum-Kabhi.m4a",
+        message: "Will you ever come to me? I keep hoping... 🌟",
+        emoji: "🌟"
+    },
+    {
+        name: "Sahiba",
+        artist: "Anuv Jain",
+        url: "./music/Sahiba.m4a",
+        message: "You're my beloved, my everything 👑",
+        emoji: "👑"
+    },
+    {
+        name: "Finding Her",
+        artist: "Anuv Jain",
+        url: "./music/Finding-Her.m4a",
+        message: "I've been searching everywhere, but I found you 🔍",
+        emoji: "🔍"
+    },
+    {
+        name: "Samjho Na",
+        artist: "Anuv Jain",
+        url: "./music/Samjho%20Na.m4a",
+        message: "Why don't you understand what my heart is saying? 💔",
+        emoji: "💔"
+    },
+    {
+        name: "Pal Pal",
+        artist: "Anuv Jain",
+        url: "./music/Pal-Pal.m4a",
+        message: "Every moment with you feels like forever ⏳",
+        emoji: "⏳"
+    }
+];
+
 // Utility functions
 function hideAllScreens() {
     const screens = document.querySelectorAll('.container');
@@ -22,9 +111,343 @@ function showScreen(screenId) {
     }
 }
 
+// Music Player Functions
+function initMusicPlayer() {
+    audio = document.getElementById('audio-player');
+    populatePlaylist();
+    setupAudioListeners();
+    // showMusicPlayerMessage(); // Disabled
+}
+
+function showMusicPlayerMessage() {
+    // Message disabled - no longer showing curated message
+    return;
+}
+
+function populatePlaylist() {
+    const songList = document.getElementById('song-list');
+    songList.innerHTML = '';
+    
+    playlist.forEach((song, index) => {
+        const songItem = document.createElement('div');
+        songItem.className = `song-item ${index === currentSongIndex ? 'active' : ''}`;
+        songItem.innerHTML = `
+            <span class="song-item-name">${song.name}</span>
+            <span class="song-item-artist">${song.artist}</span>
+        `;
+        songItem.onclick = () => playSong(index);
+        songList.appendChild(songItem);
+    });
+}
+
+function setupAudioListeners() {
+    // Remove any existing listeners to prevent duplicates
+    audio.removeEventListener('timeupdate', updateProgress);
+    audio.removeEventListener('ended', nextSong);
+    
+    // Add fresh listeners
+    audio.addEventListener('timeupdate', updateProgress);
+    audio.addEventListener('loadedmetadata', () => {
+        document.getElementById('duration').textContent = formatTime(audio.duration);
+    });
+    audio.addEventListener('ended', nextSong);
+    
+    // Buffer optimization listeners
+    audio.addEventListener('canplay', () => {
+        // Audio is ready to play without buffering
+        hideLoadingState();
+    });
+    
+    audio.addEventListener('waiting', () => {
+        // Audio is buffering
+        showLoadingState();
+    });
+    
+    audio.addEventListener('canplaythrough', () => {
+        // Enough data loaded to play through without interruption
+        hideLoadingState();
+    });
+    
+    audio.addEventListener('error', (e) => {
+        console.log('Audio error:', e);
+        hideLoadingState();
+        // Reset button state on error
+        document.getElementById('play-pause').textContent = '▶';
+        isPlaying = false;
+    });
+}
+
+function togglePlayer() {
+    const player = document.getElementById('music-player');
+    const toggle = document.querySelector('.player-toggle');
+    player.classList.toggle('minimized');
+    toggle.textContent = player.classList.contains('minimized') ? '+' : '−';
+}
+
+function togglePlay() {
+    const playBtn = document.getElementById('play-pause');
+    const visualizer = document.getElementById('audio-visualizer');
+    
+    console.log('togglePlay called');
+    console.log('isPlaying:', isPlaying);
+    console.log('audio.src:', audio.src);
+    console.log('audio.readyState:', audio.readyState);
+    console.log('audio.paused:', audio.paused);
+    
+    if (isPlaying && !audio.paused) {
+        audio.pause();
+        playBtn.textContent = '▶';
+        isPlaying = false;
+        if (visualizer) visualizer.classList.remove('playing');
+        console.log('Paused audio');
+    } else {
+        // If no song loaded, load first song
+        if (!audio.src || audio.src === window.location.href) {
+            console.log('No audio source, loading first song');
+            loadSong(0);
+            // Wait a bit then try to play
+            setTimeout(() => togglePlay(), 1000);
+            return;
+        }
+        
+        console.log('Attempting to play audio...');
+        
+        // Force reload if needed
+        if (audio.readyState === 0) {
+            console.log('Audio not loaded, reloading...');
+            audio.load();
+        }
+        
+        const playPromise = audio.play();
+        
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                playBtn.textContent = '⏸';
+                isPlaying = true;
+                if (visualizer) visualizer.classList.add('playing');
+                console.log('Successfully started playing audio');
+                
+                // Disabled automatic taste message
+                // if (!tasteMessageShown && !playlistStartTime) {
+                //     playlistStartTime = Date.now();
+                //     setTimeout(showTasteMessage, 4000);
+                // }
+            }).catch(e => {
+                console.error('Play failed:', e.name, ':', e.message);
+                console.error('Audio currentSrc:', audio.currentSrc);
+                console.error('Audio networkState:', audio.networkState);
+                playBtn.textContent = '▶';
+                isPlaying = false;
+            });
+        }
+    }
+}
+
+function loadSong(index) {
+    if (index >= 0 && index < playlist.length) {
+        currentSongIndex = index;
+        const song = playlist[index];
+        
+        console.log('Loading song:', song.name, 'URL:', song.url);
+        
+        // Update UI immediately
+        document.getElementById('current-song-name').textContent = song.name;
+        document.getElementById('current-artist-name').textContent = song.artist;
+        document.getElementById('album-art').textContent = song.emoji;
+        
+        // Update playlist display
+        populatePlaylist();
+        
+        // Load audio
+        try {
+            audio.src = song.url;
+            audio.load();
+            console.log('Audio source set to:', audio.src);
+        } catch (e) {
+            console.error('Error setting audio source:', e);
+        }
+        
+        // Show song message
+        setTimeout(() => {
+            showSongMessage(song.message);
+        }, 500);
+        
+        // Reset play button to play state
+        document.getElementById('play-pause').textContent = '▶';
+        isPlaying = false;
+        
+        hideLoadingState();
+    }
+}
+
+function playSong(index) {
+    loadSong(index);
+    // Don't auto-play - let user click play button
+}
+
+function previousSong() {
+    let newIndex = currentSongIndex - 1;
+    if (newIndex < 0) newIndex = playlist.length - 1;
+    playSong(newIndex);
+}
+
+function nextSong() {
+    let newIndex;
+    if (isShuffled) {
+        newIndex = Math.floor(Math.random() * playlist.length);
+    } else {
+        newIndex = (currentSongIndex + 1) % playlist.length;
+    }
+    playSong(newIndex);
+}
+
+function toggleShuffle() {
+    isShuffled = !isShuffled;
+    const shuffleBtn = document.getElementById('shuffle-btn');
+    shuffleBtn.classList.toggle('active', isShuffled);
+}
+
+function setVolume(value) {
+    if (audio) {
+        audio.volume = value / 100;
+    }
+}
+
+function setProgress(event) {
+    const progressBar = event.currentTarget;
+    const clickX = event.offsetX;
+    const width = progressBar.offsetWidth;
+    const duration = audio.duration;
+    
+    if (duration) {
+        const newTime = (clickX / width) * duration;
+        audio.currentTime = newTime;
+    }
+}
+
+function updateProgress() {
+    if (audio.duration) {
+        const progress = (audio.currentTime / audio.duration) * 100;
+        document.getElementById('progress').style.width = progress + '%';
+        document.getElementById('current-time').textContent = formatTime(audio.currentTime);
+    }
+}
+
+function formatTime(seconds) {
+    const minutes = Math.floor(seconds / 60);
+    const secs = Math.floor(seconds % 60);
+    return `${minutes}:${secs.toString().padStart(2, '0')}`;
+}
+
+function showSongMessage(message) {
+    const messageContainer = document.getElementById('song-message-container');
+    const messageText = document.getElementById('song-message-text');
+    
+    // Add shimmer animation
+    messageContainer.classList.add('animate');
+    
+    // Update message with fade effect
+    messageText.style.opacity = '0';
+    setTimeout(() => {
+        messageText.textContent = message;
+        messageText.style.opacity = '1';
+    }, 150);
+    
+    // Remove shimmer after animation
+    setTimeout(() => {
+        messageContainer.classList.remove('animate');
+    }, 800);
+}
+
+function closeSongMessage() {
+    const popup = document.getElementById('song-message-popup');
+    popup.classList.remove('show');
+}
+
+function showTasteMessage() {
+    if (!tasteMessageShown) {
+        const tasteMsg = document.getElementById('taste-message');
+        tasteMsg.classList.add('show');
+        tasteMessageShown = true;
+        
+        // Auto close after 8 seconds
+        setTimeout(() => {
+            tasteMsg.classList.remove('show');
+        }, 8000);
+    }
+}
+
+function closeTasteMessage() {
+    const tasteMsg = document.getElementById('taste-message');
+    tasteMsg.classList.remove('show');
+}
+
+// Audio optimization functions
+function showLoadingState() {
+    const albumArt = document.getElementById('album-art');
+    albumArt.style.opacity = '0.6';
+    albumArt.style.transform = 'scale(0.95)';
+}
+
+function hideLoadingState() {
+    const albumArt = document.getElementById('album-art');
+    albumArt.style.opacity = '1';
+    albumArt.style.transform = 'scale(1)';
+}
+
+function preloadNextSong() {
+    const nextIndex = (currentSongIndex + 1) % playlist.length;
+    if (nextIndex !== currentSongIndex && playlist[nextIndex]) {
+        // Create a temporary audio element to preload
+        const preloadAudio = new Audio();
+        preloadAudio.preload = 'auto';
+        preloadAudio.src = playlist[nextIndex].url;
+        preloadAudio.load();
+        
+        // Clean up after preloading
+        setTimeout(() => {
+            preloadAudio.src = '';
+        }, 30000);
+    }
+}
+
 // Landing page functions
 function goToReasons() {
     showScreen('reason-1');
+    
+    // Start music playback since this is a user interaction!
+    setTimeout(() => {
+        if (playlist.length > 0 && audio) {
+            console.log('Starting music from button click - bypassing autoplay restrictions');
+            
+            // Load first song if not already loaded
+            if (!audio.src || currentSongIndex < 0) {
+                loadSong(0);
+            }
+            
+            // Wait a moment for song to load, then play
+            setTimeout(() => {
+                const playBtn = document.getElementById('play-pause');
+                const visualizer = document.getElementById('audio-visualizer');
+                
+                audio.play().then(() => {
+                    playBtn.textContent = '⏸';
+                    isPlaying = true;
+                    if (visualizer) visualizer.classList.add('playing');
+                    console.log('Successfully started Baarishein after button click!');
+                    
+                    // Disabled automatic taste message
+                    // if (!tasteMessageShown && !playlistStartTime) {
+                    //     playlistStartTime = Date.now();
+                    //     setTimeout(showTasteMessage, 4000);
+                    // }
+                }).catch(e => {
+                    console.log('Music start failed:', e);
+                    // Don't worry if it fails, music player is still available
+                });
+            }, 800);
+        }
+    }, 200);
 }
 
 function goToLoveToo() {
@@ -248,8 +671,28 @@ function submitFeedback() {
     }, 1000);
 }
 
-// Add some extra animations and effects
+// Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    // Initialize music player
+    initMusicPlayer();
+    
+    // Initialize star rating (commented out - not needed)
+    // initStarRating();
+    
+    // Show music player after a short delay
+    setTimeout(() => {
+        const musicPlayer = document.getElementById('music-player');
+        musicPlayer.style.opacity = '1';
+        musicPlayer.style.transform = 'translateY(0)';
+    }, 1000);
+    
+    // Load first song after page loads
+    setTimeout(() => {
+        if (playlist.length > 0 && audio) {
+            console.log('Loading first song on page load');
+            loadSong(0);
+        }
+    }, 2000);
     // Add click effect to all buttons
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(button => {
