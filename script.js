@@ -448,7 +448,7 @@ function goToReasons() {
 }
 
 function goToLoveToo() {
-    showScreen('love-too-confirm');
+    showScreen('reason-1');
     setTimeout(() => {
         if (playlist.length > 0 && audio) {
             // Load first song if not already loaded
