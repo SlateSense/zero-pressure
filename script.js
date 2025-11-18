@@ -568,62 +568,7 @@ function showConfession() {
 }
 
 function setupStarRating() {
-    const stars = document.querySelectorAll('.star');
-    const ratingDisplay = document.getElementById('rating-display');
-    
-    stars.forEach((star, index) => {
-        star.addEventListener('click', () => {
-            selectedRating = index + 1;
-            
-            // Update star display
-            stars.forEach((s, i) => {
-                if (i < selectedRating) {
-                    s.classList.add('active');
-                } else {
-                    s.classList.remove('active');
-                }
-            });
-            
-            // Update rating display
-            ratingDisplay.textContent = `You rated: ${selectedRating}/10 stars`;
-            
-            // Add some encouraging text based on rating
-            if (selectedRating >= 8) {
-                ratingDisplay.textContent += ' 😍 (That\'s amazing!)';
-            } else if (selectedRating >= 6) {
-                ratingDisplay.textContent += ' 😊 (That\'s pretty good!)';
-            } else if (selectedRating >= 4) {
-                ratingDisplay.textContent += ' 😐 (I can work with that)';
-            } else {
-                ratingDisplay.textContent += ' 😅 (Ouch, but thanks for honesty!)';
-            }
-        });
-        
-        // Hover effect
-        star.addEventListener('mouseenter', () => {
-            stars.forEach((s, i) => {
-                if (i <= index) {
-                    s.style.filter = 'grayscale(0)';
-                    s.style.transform = 'scale(1.1)';
-                } else {
-                    s.style.filter = 'grayscale(1)';
-                    s.style.transform = 'scale(1)';
-                }
-            });
-        });
-        
-        star.addEventListener('mouseleave', () => {
-            stars.forEach((s, i) => {
-                if (i < selectedRating) {
-                    s.style.filter = 'grayscale(0)';
-                    s.style.transform = 'scale(1.2)';
-                } else {
-                    s.style.filter = 'grayscale(1)';
-                    s.style.transform = 'scale(1)';
-                }
-            });
-        });
-    });
+    // Rating removed
 }
 
 // EmailJS Configuration
@@ -635,57 +580,8 @@ const EMAILJS_CONFIG = {
 };
 
 function submitFeedback() {
-    const message = document.getElementById('message').value;
-    const ratingDisplay = document.getElementById('rating-display');
-    
-    // Simple validation
-    if (selectedRating === 0) {
-        alert('Please give me a rating first! ⭐');
-        return;
-    }
-    
-    // Show loading state
-    const submitBtn = document.querySelector('.btn-submit');
-    const originalText = submitBtn.textContent;
-    submitBtn.textContent = 'Sending... 💕';
-    submitBtn.disabled = true;
-    
-    // Prepare form data for automatic email
-    const formData = new FormData();
-    formData.append('rating', selectedRating + '/10 stars');
-    formData.append('message', message || 'No message provided');
-    formData.append('timestamp', new Date().toLocaleString());
-    formData.append('subject', '🎂 Response to Your Birthday Surprise');
-    
-    // Store feedback
-    const feedback = {
-        rating: selectedRating,
-        message: message || 'No message provided',
-        timestamp: new Date().toLocaleString()
-    };
-    localStorage.setItem('crushWebsiteFeedback', JSON.stringify(feedback));
-    
-    // Send Discord webhook notification
-    const webhookUrl = 'https://discord.com/api/webhooks/1412328812091408427/sw3Dqfk42EfJ7pCSvJFl7kFX8GFiuqrWBieK7VsXvE4r79tcuVJIM_RLD2nVRn-3cZZt';
-    
-    const discordMessage = {
-        content: `🎉 **Birthday card response!** 🎉\n\n⭐ **Rating:** ${selectedRating}/10\n💬 **Message:** ${message || 'No message'}\n⏰ **Time:** ${new Date().toLocaleString()}`
-    };
-    
-    fetch(webhookUrl, {
-        method: 'POST',
-        headers: { 'Content-Type': 'application/json' },
-        body: JSON.stringify(discordMessage)
-    })
-    .then(() => console.log('✅ Discord notification sent!'))
-    .catch(() => console.log('Discord failed - response saved locally'));
-    
-    // Show final screen
-    setTimeout(() => {
-        submitBtn.textContent = originalText;
-        submitBtn.disabled = false;
-        showScreen('final-thanks');
-    }, 1000);
+    // Directly show final screen (feedback and Discord removed)
+    showScreen('final-thanks');
 }
 
 // Initialize everything when page loads
