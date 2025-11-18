@@ -3,16 +3,16 @@
 <head>
     <meta charset="UTF-8">
     <meta name="viewport" content="width=device-width, initial-scale=1.0">
-    <title>A Little Surprise ✨</title>
+    <title>A Birthday Surprise ✨</title>
     
     <!-- Social Media Preview Control -->
-    <meta property="og:title" content="Someone made something for you ✨" />
-    <meta property="og:description" content="A small surprise waiting for you. Click to see what it is! 💫" />
+    <meta property="og:title" content="A birthday surprise made for you ✨" />
+    <meta property="og:description" content="A small birthday surprise is waiting for you. Click to open it! 💫" />
     <meta property="og:type" content="website" />
     <meta property="og:image" content="./preview.png" />
     <meta name="twitter:card" content="summary_large_image" />
-    <meta name="twitter:title" content="Someone made something for you ✨" />
-    <meta name="twitter:description" content="A small surprise waiting for you. Click to see what it is! 💫" />
+    <meta name="twitter:title" content="A birthday surprise made for you ✨" />
+    <meta name="twitter:description" content="A small birthday surprise is waiting for you. Click to open it! 💫" />
     
     <link rel="stylesheet" href="styles.css">
 </head>
@@ -23,7 +23,7 @@
     <!-- Music Player -->
     <div id="music-player" class="music-player minimized">
         <div class="player-header">
-            <span class="player-title">❤</span>
+            <span class="player-title">🎂</span>
             <button class="player-toggle" onclick="togglePlayer()">+</button>
         </div>
         <div class="player-content">
@@ -66,9 +66,9 @@
             </div>
             
             <div class="playlist">
-                <div class="playlist-header">For Ananya 💕</div>
+                <div class="playlist-header">Birthday Playlist for Ananya 🎂</div>
                 <div class="song-message-container" id="song-message-container">
-                    <div class="song-message-text" id="song-message-text"> Select a song to see its message</div>
+                    <div class="song-message-text" id="song-message-text"> Select a song to see a birthday note</div>
                 </div>
                 <div class="song-list" id="song-list">
                     <!-- Songs will be populated by JavaScript -->
@@ -92,22 +92,22 @@
     <!-- Taste Message Popup -->
     <div id="taste-message" class="taste-message">
         <div class="taste-content">
-            <span>So, did you like my taste? 😏</span>
-            <button onclick="closeTasteMessage()">💕</button>
+            <span>Are you enjoying the birthday vibes? 🎉</span>
+            <button onclick="closeTasteMessage()">🎈</button>
         </div>
     </div>
     
     <!-- Landing Page -->
     <div class="container" id="landing-page">
         <div class="content">
-            <h1 class="main-text">Ananya, I have something special to tell you... ✨</h1>
+            <h1 class="main-text">Ananya, I have a little birthday surprise for you... ✨</h1>
             <div class="buttons">
                 <button class="btn btn-primary" onclick="goToReasons()">
-                    Reasons you should date me 😏
+                    Open your birthday wishes 🎁
                     <div class="byline">BY: me obviously 😎</div>
                 </button>
                 <button class="btn btn-love" onclick="goToLoveToo()">
-                    I love you too ❤️
+                    Open your birthday card 🎂
                 </button>
             </div>
         </div>
@@ -116,71 +116,71 @@
     <!-- Reasons screens -->
     <div class="container screen" id="reason-1" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason #1</h2>
-            <p class="reason-text">I don't cheat, and never will 💯</p>
-            <p class="reason-subtitle">Trust is everything, and you'll have mine completely</p>
-            <button class="btn btn-next" onclick="showReason(2)">Next Reason ➡️</button>
+            <h2 class="reason-title">Wish #1</h2>
+            <p class="reason-text">Wishing you a year full of laughter and bright moments ✨</p>
+            <p class="reason-subtitle">May your day be as wonderful as you are</p>
+            <button class="btn btn-next" onclick="showReason(2)">Next Wish ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-2" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason #2</h2>
-            <p class="reason-text">I will buy you McDonald's, I am hella rich 💰</p>
-            <p class="reason-subtitle">(I got 50₹ in my pocket😎)</p>
+            <h2 class="reason-title">Wish #2</h2>
+            <p class="reason-text">You deserve endless treats and smiles 🎁</p>
+            <p class="reason-subtitle">Fries on me this time! 😎</p>
             <div class="gif-container">
                 <img src="https://media.giphy.com/media/67ThRZlYBvibtdF9JH/giphy.gif" alt="Rich money GIF" class="reason-gif">
             </div>
-            <div class="money-animation">💸💸💸</div>
-            <button class="btn btn-next" onclick="showReason(3)">Next Reason ➡️</button>
+            <div class="money-animation">🎉🎉🎉</div>
+            <button class="btn btn-next" onclick="showReason(3)">Next Wish ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-3" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason #3</h2>
-            <p class="reason-text">I will respect you and give fast replies 📱</p>
-            <p class="reason-subtitle">No "seen" without reply, I promise! ⚡</p>
-            <button class="btn btn-next" onclick="showReason(4)">Next Reason ➡️</button>
+            <h2 class="reason-title">Wish #3</h2>
+            <p class="reason-text">May your notifications be full of love and good wishes 📱</p>
+            <p class="reason-subtitle">Fast replies all day! ⚡</p>
+            <button class="btn btn-next" onclick="showReason(4)">Next Wish ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-4" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason #4</h2>
-            <p class="reason-text">I am Batman 🦇</p>
-            <p class="reason-subtitle">(Will protect you at all cost)</p>
+            <h2 class="reason-title">Wish #4</h2>
+            <p class="reason-text">You’re the hero of your story 🦇</p>
+            <p class="reason-subtitle">Have a super year ahead!</p>
             <div class="gif-container">
                 <img src="https://media0.giphy.com/media/v1.Y2lkPTc5MGI3NjExZTNkNG04eDE3M29nb2E1d2M1NnNkbHI4b3Zid3BwMG9sbnp1MTN5biZlcD12MV9pbnRlcm5hbF9naWZfYnlfaWQmY3Q9Zw/uNp22kQO4QCxa/giphy.gif" alt="Batman GIF" class="reason-gif batman-gif">
             </div>
             <div class="batman-animation">🌙🦇🌙</div>
-            <button class="btn btn-next" onclick="showReason(5)">Next Reason ➡️</button>
+            <button class="btn btn-next" onclick="showReason(5)">Next Wish ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-5" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason #5</h2>
-            <p class="reason-text">Will stay with you till the end ✔️</p>
-            <p class="reason-subtitle">Through all seasons of life 🌸🌞🍂❄️</p>
-            <button class="btn btn-next" onclick="showReason(6)">Next Reason ➡️</button>
+            <h2 class="reason-title">Wish #5</h2>
+            <p class="reason-text">From sunrise to sunset, today is all about you ✔️</p>
+            <p class="reason-subtitle">And the days after too 🌸🌞🍂❄️</p>
+            <button class="btn btn-next" onclick="showReason(6)">Next Wish ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-6" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason #6</h2>
-            <p class="reason-text">Will always treat you like a princess 👑</p>
-            <p class="reason-subtitle">Because that's exactly what you are ✨</p>
-            <button class="btn btn-next" onclick="showReason(7)">Next Reason ➡️</button>
+            <h2 class="reason-title">Wish #6</h2>
+            <p class="reason-text">You deserve to be celebrated like royalty 👑</p>
+            <p class="reason-subtitle">Always. ✨</p>
+            <button class="btn btn-next" onclick="showReason(7)">Next Wish ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-7" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason #7</h2>
-            <p class="reason-text">I will love you, not just your body ❤️</p>
-            <p class="reason-subtitle">Your heart, mind, and soul - all of you 💕</p>
+            <h2 class="reason-title">Wish #7</h2>
+            <p class="reason-text">Here’s to your heart, mind and dreams ❤️</p>
+            <p class="reason-subtitle">Cheering for you—always 💕</p>
             <button class="btn btn-next" onclick="showNextChoice()">What's Next? 💭</button>
         </div>
     </div>
@@ -188,11 +188,11 @@
     <!-- Love too path -->
     <div class="container screen" id="love-too-confirm" style="display: none;">
         <div class="content">
-            <h2 class="surprise-text">Like really? 😍</h2>
-            <p class="question-text">Are you sure about that? 💕</p>
+            <h2 class="surprise-text">Ready to open your birthday card? 🎂</h2>
+            <p class="question-text">Are you sure? 💕</p>
             <div class="buttons">
-                <button class="btn btn-yes" onclick="showMeetingQuestion()">Yes, really! 😊</button>
-                <button class="btn btn-no" onclick="goBackToLanding()">Wait, let me think... 🤔</button>
+                <button class="btn btn-yes" onclick="showConfession()">Yes, open it! 😊</button>
+                <button class="btn btn-no" onclick="goBackToLanding()">Maybe later... 🤔</button>
             </div>
         </div>
     </div>
@@ -200,7 +200,7 @@
     <!-- Meeting question -->
     <div class="container screen" id="meeting-question" style="display: none;">
         <div class="content">
-            <h2 class="question-text">So should we meet on next school day? 🏫</h2>
+            <h2 class="question-text">Shall we celebrate on your birthday at school? 🏫</h2>
             <div class="buttons">
                 <button class="btn btn-yes" onclick="showThankYou()">Yes! 😄</button>
                 <button class="btn btn-no" onclick="showNoMeetResponse()">No... 😅</button>
@@ -211,8 +211,8 @@
     <!-- Thank you response -->
     <div class="container screen" id="thank-you" style="display: none;">
         <div class="content">
-            <h2 class="happy-text">Thank you! 🎉</h2>
-            <p class="response-text">Will surely meet... I'm so excited! 💕</p>
+            <h2 class="happy-text">Yay! 🎉</h2>
+            <p class="response-text">Can’t wait to celebrate! 💕</p>
             <button class="btn btn-next" onclick="showConfession()">Continue ➡️</button>
         </div>
     </div>
@@ -220,9 +220,9 @@
     <!-- No meet response -->
     <div class="container screen" id="no-meet-response" style="display: none;">
         <div class="content">
-            <h2 class="sad-text">Ok, ummm... 😭</h2>
-            <p class="response-text">You just said you love me and now saying you don't want to meet...</p>
-            <p class="understanding-text">No problem 💪, it's up to you, I will wait when you are ready ❤️</p>
+            <h2 class="sad-text">All good! 😊</h2>
+            <p class="response-text">If not today, we’ll celebrate soon!</p>
+            <p class="understanding-text">No worries—wishing you the happiest day anyway ❤️</p>
             <button class="btn btn-next" onclick="showNextChoice()">Continue ➡️</button>
         </div>
     </div>
@@ -232,8 +232,8 @@
         <div class="content">
             <h2 class="choice-text">So what do you think? 💭</h2>
             <div class="buttons">
-                <button class="btn btn-accept" onclick="showAcceptConfirm()">You accept me and will date 💕</button>
-                <button class="btn btn-reasons-not" onclick="showReasonsNot(1)">Reasons you should NOT date me 😏</button>
+                <button class="btn btn-accept" onclick="showConfession()">Open the birthday card 💌</button>
+                <button class="btn btn-reasons-not" onclick="showReasonsNot(1)">More wishes ➕</button>
             </div>
         </div>
     </div>
@@ -241,11 +241,11 @@
     <!-- Accept confirmation -->
     <div class="container screen" id="accept-confirm" style="display: none;">
         <div class="content">
-            <h2 class="surprise-text">Like really? 😍</h2>
-            <p class="question-text">You really accept me? 💕</p>
+            <h2 class="surprise-text">Open the birthday card now? 🎂</h2>
+            <p class="question-text">Ready when you are 💕</p>
             <div class="buttons">
-                <button class="btn btn-yes" onclick="showMeetingQuestion()">Yes, I do! 😊</button>
-                <button class="btn btn-no" onclick="showNextChoice()">Let me think more... 🤔</button>
+                <button class="btn btn-yes" onclick="showConfession()">Yes, open it! 😊</button>
+                <button class="btn btn-no" onclick="showNextChoice()">Maybe later... 🤔</button>
             </div>
         </div>
     </div>
@@ -253,38 +253,38 @@
     <!-- Reasons NOT to date screens -->
     <div class="container screen" id="reason-not-1" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason NOT to date me #1</h2>
-            <p class="reason-text">I am too caring 🥺</p>
-            <p class="reason-subtitle">You might get overwhelmed by all the love and attention</p>
-            <button class="btn btn-next" onclick="showReasonsNot(2)">Next Reason ➡️</button>
+            <h2 class="reason-title">More wishes #1</h2>
+            <p class="reason-text">May your day be filled with laughter 🥳</p>
+            <p class="reason-subtitle">Here’s a little extra joy just for you</p>
+            <button class="btn btn-next" onclick="showReasonsNot(2)">Next ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-not-2" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason NOT to date me #2</h2>
-            <p class="reason-text">I can love you toooo much 💕</p>
-            <p class="reason-subtitle">Excessive compliments ahead!</p>
-            <button class="btn btn-next" onclick="showReasonsNot(3)">Next Reason ➡️</button>
+            <h2 class="reason-title">More wishes #2</h2>
+            <p class="reason-text">Wishing you endless smiles 💕</p>
+            <p class="reason-subtitle">More confetti coming up!</p>
+            <button class="btn btn-next" onclick="showReasonsNot(3)">Next ➡️</button>
         </div>
     </div>
 
     <div class="container screen" id="reason-not-3" style="display: none;">
         <div class="content">
-            <h2 class="reason-title">Reason NOT to date me #3</h2>
-            <p class="reason-text">I need a long-term relationship 💗</p>
-            <p class="reason-subtitle">No casual dating here - it's all or nothing!</p>
-            <button class="btn btn-next" onclick="showFinalChoice()">Final Decision Time ⏰</button>
+            <h2 class="reason-title">More wishes #3</h2>
+            <p class="reason-text">May your year be full of cozy moments 💗</p>
+            <p class="reason-subtitle">Big dreams, big wins!</p>
+            <button class="btn btn-next" onclick="showFinalChoice()">Open your card ⏰</button>
         </div>
     </div>
 
     <!-- Final choice -->
     <div class="container screen" id="final-choice" style="display: none;">
         <div class="content">
-            <h2 class="final-text">So, do you accept? 💕</h2>
+            <h2 class="final-text">Open the birthday card now? 🎂</h2>
             <div class="buttons">
-                <button class="btn btn-yes" onclick="showAcceptConfirm()">Yes! 😍</button>
-                <button class="btn btn-no moving-no" id="moving-no" onclick="moveNoButton()">No 😅</button>
+                <button class="btn btn-yes" onclick="showConfession()">Yes! 🎉</button>
+                <button class="btn btn-no moving-no" id="moving-no" onclick="moveNoButton()">Not yet 😅</button>
             </div>
         </div>
     </div>
@@ -292,18 +292,17 @@
     <!-- Confession page -->
     <div class="container screen" id="confession" style="display: none;">
         <div class="content confession-content">
-            <h2 class="confession-title">My Confession 💌</h2>
+            <h2 class="confession-title">Your Birthday Card 💌</h2>
             <div class="confession-text">
-                <p>Sorry for bad English...</p>
-                <p>I know I messed up in M.U.N., and I am really sorry if that hurt you... I wanted to say something else and after seeing you I don't know and said something else.</p>
-                <p>I have a crush on you since 9th, I don't even know till now what you said to my friend in last of the day and nor I know what he said to you...</p>
-                <p>I really love you (I know many people may have already said you this), but I really can't explain how much I love, I don't want to force you into a relationship. I just want to hear a straight no or yes.</p>
-                <p>I hope you understand and if you don't like me, No problem, Take it as a compliment. And I will take the website down asap.</p>
-                <p>And I really appreciate that you reached here and gave me your precious time. ❤️</p>
+                <p>Happy Birthday, Ananya! 🎂</p>
+                <p>May your day be filled with smiles, warm surprises, and tiny moments that become your favorite memories.</p>
+                <p>Here’s to good health, beautiful adventures, and everything your heart quietly wishes for.</p>
+                <p>Thank you for being you — thoughtful, bright, and effortlessly you. The world is better with you in it.</p>
+                <p>Take a deep breath, make a wish, and let this year unfold with joy. You deserve every bit of it. 💖</p>
             </div>
             
             <div class="rating-section">
-                <h3>Please rate me out of 10 (be brutally honest) ⭐</h3>
+                <h3>Rate the surprise out of 10 ⭐</h3>
                 <div class="stars-rating" id="stars-rating">
                     <span class="star" data-rating="1">⭐</span>
                     <span class="star" data-rating="2">⭐</span>
@@ -320,9 +319,9 @@
             </div>
             
             <div class="message-section">
-                <h3>If you want to say anything, please write here 💭</h3>
-                <p class="message-subtitle">I respect your opinion</p>
-                <textarea id="message" placeholder="Your thoughts..."></textarea>
+                <h3>Leave me a birthday note 💭</h3>
+                <p class="message-subtitle">Your message will make my day!</p>
+                <textarea id="message" placeholder="Your wishes or feedback..."></textarea>
                 <button class="btn btn-submit" onclick="submitFeedback()">Submit 💌</button>
             </div>
         </div>
@@ -331,8 +330,8 @@
     <!-- Final thank you -->
     <div class="container screen" id="final-thanks" style="display: none;">
         <div class="content">
-            <h2 class="final-thanks-text">Thank you so much! 💕</h2>
-            <p class="thanks-message">Your response means everything to me ❤️</p>
+            <h2 class="final-thanks-text">Thank you! 🎂</h2>
+            <p class="thanks-message">Wishing you the happiest birthday! ❤️</p>
             <div class="heart-animation">💖💖💖</div>
             
             <div class="contact-info">

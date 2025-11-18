@@ -16,77 +16,77 @@ const playlist = [
         name: "Baarishein",
         artist: "Anuv Jain",
         url: "./music/Baarishein.m4a",
-        message: "Like the rain, my feelings for you are pure and endless 🌧️",
+        message: "Like gentle rain, may your birthday feel fresh and cozy 🌧️",
         emoji: "🌧️"
     },
     {
         name: "Jo Tum Mere Ho",
         artist: "Anuv Jain",
         url: "./music/Jo-Tum-Mere-Ho.m4a",
-        message: "If you were mine, everything would be perfect 💕",
+        message: "A comfort track for your special day 💕",
         emoji: "💕"
     },
     {
         name: "Faasle",
         artist: "Anuv Jain",
         url: "./music/Faasle.m4a",
-        message: "Distances don't matter when hearts are connected 💞",
+        message: "No distance can stop good wishes from reaching you today 💫",
         emoji: "💞"
     },
     {
         name: "Na Pata Mujhe",
         artist: "Anuv Jain",
         url: "./music/Na-Pata-Mujhe.m4a",
-        message: "I don't know what this feeling is, but it's beautiful 🌈",
+        message: "Some days are just felt — may this one feel beautiful 🌈",
         emoji: "🌈"
     },
     {
         name: "Husn",
         artist: "Anuv Jain",
         url: "./music/Husn.m4a",
-        message: "I ain't asking for your body... just your heart 💕",
+        message: "Here’s a song to add a smile to your day 💖",
         emoji: "💖"
     },
     {
         name: "Haseen",
         artist: "Anuv Jain",
         url: "./music/Haseen.m4a",
-        message: "You're the most beautiful thing I've ever seen 🌹",
+        message: "Birthday glow looks great on you 🌹",
         emoji: "🌹"
     },
     {
         name: "Aaoge Tum Kabhi",
         artist: "The Local Train",
         url: "./music/Aaoge-Tum-Kabhi.m4a",
-        message: "Will you ever come to me? I keep hoping... 🌟",
+        message: "Hope today brings the people and moments you love 🌟",
         emoji: "🌟"
     },
     {
         name: "Sahiba",
         artist: "Anuv Jain",
         url: "./music/Sahiba.m4a",
-        message: "You're my beloved, my everything 👑",
+        message: "Royal birthday vibes only 👑",
         emoji: "👑"
     },
     {
         name: "Finding Her",
         artist: "Anuv Jain",
         url: "./music/Finding-Her.m4a",
-        message: "I've been searching everywhere, but I found you 🔍",
+        message: "May this year help you find more of what makes you happy 🔍",
         emoji: "🔍"
     },
     {
         name: "Samjho Na",
         artist: "Anuv Jain",
         url: "./music/Samjho%20Na.m4a",
-        message: "Why don't you understand what my heart is saying? 💔",
-        emoji: "💔"
+        message: "Hope this one makes you hum along today 🎶",
+        emoji: "🎶"
     },
     {
         name: "Pal Pal",
         artist: "Anuv Jain",
         url: "./music/Pal-Pal.m4a",
-        message: "Every moment with you feels like forever ⏳",
+        message: "Enjoy every moment of your birthday ⏳",
         emoji: "⏳"
     }
 ];
@@ -452,6 +452,26 @@ function goToReasons() {
 
 function goToLoveToo() {
     showScreen('love-too-confirm');
+    setTimeout(() => {
+        if (playlist.length > 0 && audio) {
+            // Load first song if not already loaded
+            if (!audio.src || currentSongIndex < 0) {
+                loadSong(0);
+            }
+            // Wait a moment for song to load, then play
+            setTimeout(() => {
+                const playBtn = document.getElementById('play-pause');
+                const visualizer = document.getElementById('audio-visualizer');
+                audio.play().then(() => {
+                    playBtn.textContent = '⏸';
+                    isPlaying = true;
+                    if (visualizer) visualizer.classList.add('playing');
+                }).catch(() => {
+                    // Ignore if it fails; player remains available
+                });
+            }, 800);
+        }
+    }, 200);
 }
 
 function goBackToLanding() {
@@ -638,7 +658,7 @@ function submitFeedback() {
     formData.append('rating', selectedRating + '/10 stars');
     formData.append('message', message || 'No message provided');
     formData.append('timestamp', new Date().toLocaleString());
-    formData.append('subject', '💕 Response to Your Confession Website');
+    formData.append('subject', '🎂 Response to Your Birthday Surprise');
     
     // Store feedback
     const feedback = {
@@ -652,7 +672,7 @@ function submitFeedback() {
     const webhookUrl = 'https://discord.com/api/webhooks/1412328812091408427/sw3Dqfk42EfJ7pCSvJFl7kFX8GFiuqrWBieK7VsXvE4r79tcuVJIM_RLD2nVRn-3cZZt';
     
     const discordMessage = {
-        content: `🚨 **SHE RESPONDED!** 🚨\n\n⭐ **Rating:** ${selectedRating}/10\n💬 **Message:** ${message || 'No message'}\n⏰ **Time:** ${new Date().toLocaleString()}`
+        content: `🎉 **Birthday card response!** 🎉\n\n⭐ **Rating:** ${selectedRating}/10\n💬 **Message:** ${message || 'No message'}\n⏰ **Time:** ${new Date().toLocaleString()}`
     };
     
     fetch(webhookUrl, {
@@ -723,7 +743,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function createFloatingHeart() {
     const heart = document.createElement('div');
-    heart.innerHTML = '💕';
+    heart.innerHTML = '🎈';
     heart.style.position = 'fixed';
     heart.style.left = Math.random() * window.innerWidth + 'px';
     heart.style.top = window.innerHeight + 'px';
@@ -805,5 +825,5 @@ document.addEventListener('contextmenu', function(e) {
 });
 
 // Add sweet console message
-console.log('💕 Made with love for someone special 💕');
-console.log('🌟 Good luck with your confession! 🌟');
+console.log('🎂 Made with care for a birthday surprise 🎂');
+console.log('🌟 Happy Birthday! Enjoy the surprise. 🌟');
