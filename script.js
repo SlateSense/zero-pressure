@@ -413,37 +413,34 @@ function preloadNextSong() {
 
 // Landing page functions
 function goToReasons() {
-    showScreen('reason-1');
-    
+    // Keep user on landing page and open the music player
+    showScreen('landing-page');
+    const player = document.getElementById('music-player');
+    if (player && player.classList.contains('minimized')) {
+        player.classList.remove('minimized');
+        const toggle = document.querySelector('.player-toggle');
+        if (toggle) toggle.textContent = '−';
+    }
+
     // Start music playback since this is a user interaction!
     setTimeout(() => {
         if (playlist.length > 0 && audio) {
             console.log('Starting music from button click - bypassing autoplay restrictions');
-            
             // Load first song if not already loaded
             if (!audio.src || currentSongIndex < 0) {
                 loadSong(0);
             }
-            
             // Wait a moment for song to load, then play
             setTimeout(() => {
                 const playBtn = document.getElementById('play-pause');
                 const visualizer = document.getElementById('audio-visualizer');
-                
                 audio.play().then(() => {
                     playBtn.textContent = '⏸';
                     isPlaying = true;
                     if (visualizer) visualizer.classList.add('playing');
-                    console.log('Successfully started Baarishein after button click!');
-                    
-                    // Disabled automatic taste message
-                    // if (!tasteMessageShown && !playlistStartTime) {
-                    //     playlistStartTime = Date.now();
-                    //     setTimeout(showTasteMessage, 4000);
-                    // }
                 }).catch(e => {
                     console.log('Music start failed:', e);
-                    // Don't worry if it fails, music player is still available
+                    // Player remains available
                 });
             }, 800);
         }
