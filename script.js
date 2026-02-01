@@ -16,77 +16,77 @@ const playlist = [
         name: "Baarishein",
         artist: "Anuv Jain",
         url: "./music/Baarishein.m4a",
-        message: "Like gentle rain, may your birthday feel fresh and cozy 🌧️",
+        message: "Like the rain, my feelings for you are pure and endless 🌧️",
         emoji: "🌧️"
     },
     {
         name: "Jo Tum Mere Ho",
         artist: "Anuv Jain",
         url: "./music/Jo-Tum-Mere-Ho.m4a",
-        message: "A comfort track for your special day 💕",
+        message: "If you were mine, everything would be perfect 💕",
         emoji: "💕"
     },
     {
         name: "Faasle",
         artist: "Anuv Jain",
         url: "./music/Faasle.m4a",
-        message: "No distance can stop good wishes from reaching you today 💫",
+        message: "Distances don't matter when hearts are connected 💞",
         emoji: "💞"
     },
     {
         name: "Na Pata Mujhe",
         artist: "Anuv Jain",
         url: "./music/Na-Pata-Mujhe.m4a",
-        message: "Some days are just felt — may this one feel beautiful 🌈",
+        message: "I don't know what this feeling is, but it's beautiful 🌈",
         emoji: "🌈"
     },
     {
         name: "Husn",
         artist: "Anuv Jain",
         url: "./music/Husn.m4a",
-        message: "Here’s a song to add a smile to your day 💖",
+        message: "I ain't asking for your body... just your heart 💕",
         emoji: "💖"
     },
     {
         name: "Haseen",
         artist: "Anuv Jain",
         url: "./music/Haseen.m4a",
-        message: "Birthday glow looks great on you 🌹",
+        message: "You're the most beautiful thing I've ever seen 🌹",
         emoji: "🌹"
     },
     {
         name: "Aaoge Tum Kabhi",
         artist: "The Local Train",
         url: "./music/Aaoge-Tum-Kabhi.m4a",
-        message: "Hope today brings the people and moments you love 🌟",
+        message: "Will you ever come to me? I keep hoping... 🌟",
         emoji: "🌟"
     },
     {
         name: "Sahiba",
         artist: "Anuv Jain",
         url: "./music/Sahiba.m4a",
-        message: "Royal birthday vibes only 👑",
+        message: "You're my beloved, my everything 👑",
         emoji: "👑"
     },
     {
         name: "Finding Her",
         artist: "Anuv Jain",
         url: "./music/Finding-Her.m4a",
-        message: "May this year help you find more of what makes you happy 🔍",
+        message: "I've been searching everywhere, but I found you 🔍",
         emoji: "🔍"
     },
     {
         name: "Samjho Na",
         artist: "Anuv Jain",
         url: "./music/Samjho%20Na.m4a",
-        message: "Hope this one makes you hum along today 🎶",
-        emoji: "🎶"
+        message: "Why don't you understand what my heart is saying? 💔",
+        emoji: "💔"
     },
     {
         name: "Pal Pal",
         artist: "Anuv Jain",
         url: "./music/Pal-Pal.m4a",
-        message: "Enjoy every moment of your birthday ⏳",
+        message: "Every moment with you feels like forever ⏳",
         emoji: "⏳"
     }
 ];
@@ -413,34 +413,37 @@ function preloadNextSong() {
 
 // Landing page functions
 function goToReasons() {
-    // Keep user on landing page and open the music player
-    showScreen('landing-page');
-    const player = document.getElementById('music-player');
-    if (player && player.classList.contains('minimized')) {
-        player.classList.remove('minimized');
-        const toggle = document.querySelector('.player-toggle');
-        if (toggle) toggle.textContent = '−';
-    }
-
+    showScreen('reason-1');
+    
     // Start music playback since this is a user interaction!
     setTimeout(() => {
         if (playlist.length > 0 && audio) {
             console.log('Starting music from button click - bypassing autoplay restrictions');
+            
             // Load first song if not already loaded
             if (!audio.src || currentSongIndex < 0) {
                 loadSong(0);
             }
+            
             // Wait a moment for song to load, then play
             setTimeout(() => {
                 const playBtn = document.getElementById('play-pause');
                 const visualizer = document.getElementById('audio-visualizer');
+                
                 audio.play().then(() => {
                     playBtn.textContent = '⏸';
                     isPlaying = true;
                     if (visualizer) visualizer.classList.add('playing');
+                    console.log('Successfully started Baarishein after button click!');
+                    
+                    // Disabled automatic taste message
+                    // if (!tasteMessageShown && !playlistStartTime) {
+                    //     playlistStartTime = Date.now();
+                    //     setTimeout(showTasteMessage, 4000);
+                    // }
                 }).catch(e => {
                     console.log('Music start failed:', e);
-                    // Player remains available
+                    // Don't worry if it fails, music player is still available
                 });
             }, 800);
         }
@@ -448,27 +451,7 @@ function goToReasons() {
 }
 
 function goToLoveToo() {
-    showScreen('reason-1');
-    setTimeout(() => {
-        if (playlist.length > 0 && audio) {
-            // Load first song if not already loaded
-            if (!audio.src || currentSongIndex < 0) {
-                loadSong(0);
-            }
-            // Wait a moment for song to load, then play
-            setTimeout(() => {
-                const playBtn = document.getElementById('play-pause');
-                const visualizer = document.getElementById('audio-visualizer');
-                audio.play().then(() => {
-                    playBtn.textContent = '⏸';
-                    isPlaying = true;
-                    if (visualizer) visualizer.classList.add('playing');
-                }).catch(() => {
-                    // Ignore if it fails; player remains available
-                });
-            }, 800);
-        }
-    }, 200);
+    showScreen('love-too-confirm');
 }
 
 function goBackToLanding() {
@@ -513,24 +496,53 @@ function showFinalChoice() {
 // Moving "No" button functionality
 function moveNoButton() {
     const button = document.getElementById('moving-no');
-    const container = button.parentElement;
+    const container = button.closest('.container') || button.parentElement;
     
     noClickCount++;
     
     if (noClickCount < 3) {
-        // Move to random position
         const containerRect = container.getBoundingClientRect();
         const buttonRect = button.getBoundingClientRect();
-        
-        const maxX = containerRect.width - buttonRect.width - 40;
-        const maxY = containerRect.height - buttonRect.height - 40;
-        
-        const randomX = Math.random() * maxX;
-        const randomY = Math.random() * maxY;
-        
+        const padding = 20;
+        let xMin = padding;
+        let yMin = padding;
+        let xMax = containerRect.width - buttonRect.width - padding;
+        let yMax = containerRect.height - buttonRect.height - padding;
+        const yesBtn = (button.closest('.container') || button.parentElement).querySelector('.btn-yes');
+        const yesRect = yesBtn ? yesBtn.getBoundingClientRect() : null;
+        if (yMax <= yMin) { yMin = padding; yMax = containerRect.height - buttonRect.height - padding; }
+        if (xMax <= xMin) { xMin = padding; xMax = containerRect.width - buttonRect.width - padding; }
+        let randomX = xMin;
+        let randomY = yMin;
+        if (yesRect) {
+            const corners = [
+                { x: xMin, y: yMin },
+                { x: xMax, y: yMin },
+                { x: xMin, y: yMax },
+                { x: xMax, y: yMax }
+            ];
+            const yesCx = yesRect.left + yesRect.width / 2;
+            const yesCy = yesRect.top + yesRect.height / 2;
+            let best = corners[0];
+            let bestD = -1;
+            for (const c of corners) {
+                const ccx = containerRect.left + c.x + buttonRect.width / 2;
+                const ccy = containerRect.top + c.y + buttonRect.height / 2;
+                const dd = (ccx - yesCx) * (ccx - yesCx) + (ccy - yesCy) * (ccy - yesCy);
+                if (dd > bestD) { bestD = dd; best = c; }
+            }
+            const jitterX = (Math.random() * 2 - 1) * 60;
+            const jitterY = (Math.random() * 2 - 1) * 60;
+            randomX = Math.min(xMax, Math.max(xMin, best.x + jitterX));
+            randomY = Math.min(yMax, Math.max(yMin, best.y + jitterY));
+        } else {
+            randomX = xMin + Math.random() * Math.max(0, (xMax - xMin));
+            randomY = yMin + Math.random() * Math.max(0, (yMax - yMin));
+        }
         button.style.position = 'absolute';
         button.style.left = randomX + 'px';
         button.style.top = randomY + 'px';
+        button.style.zIndex = '1500';
         
         // Add a little shake animation
         button.style.animation = 'shake 0.5s ease-in-out';
@@ -568,7 +580,62 @@ function showConfession() {
 }
 
 function setupStarRating() {
-    // Rating removed
+    const stars = document.querySelectorAll('.star');
+    const ratingDisplay = document.getElementById('rating-display');
+    
+    stars.forEach((star, index) => {
+        star.addEventListener('click', () => {
+            selectedRating = index + 1;
+            
+            // Update star display
+            stars.forEach((s, i) => {
+                if (i < selectedRating) {
+                    s.classList.add('active');
+                } else {
+                    s.classList.remove('active');
+                }
+            });
+            
+            // Update rating display
+            ratingDisplay.textContent = `You rated: ${selectedRating}/10 stars`;
+            
+            // Add some encouraging text based on rating
+            if (selectedRating >= 8) {
+                ratingDisplay.textContent += ' 😍 (That\'s amazing!)';
+            } else if (selectedRating >= 6) {
+                ratingDisplay.textContent += ' 😊 (That\'s pretty good!)';
+            } else if (selectedRating >= 4) {
+                ratingDisplay.textContent += ' 😐 (I can work with that)';
+            } else {
+                ratingDisplay.textContent += ' 😅 (Ouch, but thanks for honesty!)';
+            }
+        });
+        
+        // Hover effect
+        star.addEventListener('mouseenter', () => {
+            stars.forEach((s, i) => {
+                if (i <= index) {
+                    s.style.filter = 'grayscale(0)';
+                    s.style.transform = 'scale(1.1)';
+                } else {
+                    s.style.filter = 'grayscale(1)';
+                    s.style.transform = 'scale(1)';
+                }
+            });
+        });
+        
+        star.addEventListener('mouseleave', () => {
+            stars.forEach((s, i) => {
+                if (i < selectedRating) {
+                    s.style.filter = 'grayscale(0)';
+                    s.style.transform = 'scale(1.2)';
+                } else {
+                    s.style.filter = 'grayscale(1)';
+                    s.style.transform = 'scale(1)';
+                }
+            });
+        });
+    });
 }
 
 // EmailJS Configuration
@@ -580,8 +647,57 @@ const EMAILJS_CONFIG = {
 };
 
 function submitFeedback() {
-    // Directly show final screen (feedback and Discord removed)
-    showScreen('final-thanks');
+    const message = document.getElementById('message').value;
+    const ratingDisplay = document.getElementById('rating-display');
+    
+    // Simple validation
+    if (selectedRating === 0) {
+        alert('Please give me a rating first! ⭐');
+        return;
+    }
+    
+    // Show loading state
+    const submitBtn = document.querySelector('.btn-submit');
+    const originalText = submitBtn.textContent;
+    submitBtn.textContent = 'Sending... 💕';
+    submitBtn.disabled = true;
+    
+    // Prepare form data for automatic email
+    const formData = new FormData();
+    formData.append('rating', selectedRating + '/10 stars');
+    formData.append('message', message || 'No message provided');
+    formData.append('timestamp', new Date().toLocaleString());
+    formData.append('subject', '💕 Response to Your Confession Website');
+    
+    // Store feedback
+    const feedback = {
+        rating: selectedRating,
+        message: message || 'No message provided',
+        timestamp: new Date().toLocaleString()
+    };
+    localStorage.setItem('crushWebsiteFeedback', JSON.stringify(feedback));
+    
+    // Send Discord webhook notification
+    const webhookUrl = 'https://discord.com/api/webhooks/1412328812091408427/sw3Dqfk42EfJ7pCSvJFl7kFX8GFiuqrWBieK7VsXvE4r79tcuVJIM_RLD2nVRn-3cZZt';
+    
+    const discordMessage = {
+        content: `🚨 **SHE RESPONDED!** 🚨\n\n⭐ **Rating:** ${selectedRating}/10\n💬 **Message:** ${message || 'No message'}\n⏰ **Time:** ${new Date().toLocaleString()}`
+    };
+    
+    fetch(webhookUrl, {
+        method: 'POST',
+        headers: { 'Content-Type': 'application/json' },
+        body: JSON.stringify(discordMessage)
+    })
+    .then(() => console.log('✅ Discord notification sent!'))
+    .catch(() => console.log('Discord failed - response saved locally'));
+    
+    // Show final screen
+    setTimeout(() => {
+        submitBtn.textContent = originalText;
+        submitBtn.disabled = false;
+        showScreen('final-thanks');
+    }, 1000);
 }
 
 // Initialize everything when page loads
@@ -636,7 +752,7 @@ document.addEventListener('DOMContentLoaded', function() {
 
 function createFloatingHeart() {
     const heart = document.createElement('div');
-    heart.innerHTML = '🎈';
+    heart.innerHTML = '💕';
     heart.style.position = 'fixed';
     heart.style.left = Math.random() * window.innerWidth + 'px';
     heart.style.top = window.innerHeight + 'px';
@@ -718,5 +834,5 @@ document.addEventListener('contextmenu', function(e) {
 });
 
 // Add sweet console message
-console.log('🎂 Made with care for a birthday surprise 🎂');
-console.log('🌟 Happy Birthday! Enjoy the surprise. 🌟');
+console.log('💕 Made with love for someone special 💕');
+console.log('🌟 Good luck with your confession! 🌟');
