@@ -13,6 +13,13 @@ let audio = null;
 // Playlist with your favorite artists (in your preferred order)
 const playlist = [
     {
+        name: "Tum Ho Toh",
+        artist: "Vishal Mishra",
+        url: "./music/Tum%20Ho%20Toh.mp3",
+        message: "If you're here, everything in my world suddenly feels softer, brighter, and exactly where it belongs ❤️",
+        emoji: "❤️"
+    },
+    {
         name: "Baarishein",
         artist: "Anuv Jain",
         url: "./music/Baarishein.m4a",
@@ -434,7 +441,7 @@ function goToReasons() {
                     playBtn.textContent = '⏸';
                     isPlaying = true;
                     if (visualizer) visualizer.classList.add('playing');
-                    console.log('Successfully started Baarishein after button click!');
+                    console.log(`Successfully started ${playlist[currentSongIndex].name} after button click!`);
                     
                     // Disabled automatic taste message
                     // if (!tasteMessageShown && !playlistStartTime) {
