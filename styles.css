@@ -519,35 +519,6 @@ body {
     margin-bottom: 30px;
 }
 
-/* Contact Info */
-.contact-info {
-    background: rgba(255, 255, 255, 0.1);
-    padding: 25px;
-    border-radius: 15px;
-    margin-top: 30px;
-}
-
-.contact-title {
-    font-size: 1.5rem;
-    color: #ff6b6b;
-    margin-bottom: 15px;
-}
-
-.contact-details {
-    display: flex;
-    flex-direction: column;
-    gap: 10px;
-}
-
-.snapchat-info {
-    font-size: 1.2rem;
-    color: #ffffff;
-    background: rgba(255, 255, 255, 0.1);
-    padding: 10px 15px;
-    border-radius: 10px;
-    border-left: 4px solid #4ecdc4;
-}
-
 /* Music Player Styles - Glass Morphism */
 .music-player {
     position: fixed;

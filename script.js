@@ -490,7 +490,25 @@ function showReasonsNot(reasonNumber) {
 }
 
 function showFinalChoice() {
+    resetFinalChoiceButton();
     showScreen('final-choice');
+}
+
+function showNoChoiceResponse() {
+    showScreen('no-choice-response');
+}
+
+function resetFinalChoiceButton() {
+    const button = document.getElementById('moving-no');
+    if (!button) return;
+
+    noClickCount = 0;
+    button.textContent = 'No 😅';
+    button.style.position = '';
+    button.style.left = '';
+    button.style.top = '';
+    button.style.zIndex = '';
+    button.style.animation = '';
 }
 
 // Moving "No" button functionality
@@ -557,8 +575,8 @@ function moveNoButton() {
             button.textContent = 'Still no! 😏';
         }
     } else {
-        // After 3rd click, go to confession
-        showConfession();
+        // After 3rd click, show a gentle response before the confession
+        showNoChoiceResponse();
     }
 }
 
