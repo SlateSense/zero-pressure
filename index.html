@@ -106,9 +106,6 @@
                     Reasons you should date me 😏
                     <div class="byline">BY: me obviously 😎</div>
                 </button>
-                <button class="btn btn-love" onclick="goToLoveToo()">
-                    I love you too ❤️
-                </button>
             </div>
         </div>
     </div>
@@ -220,9 +217,7 @@
     <!-- No meet response -->
     <div class="container screen" id="no-meet-response" style="display: none;">
         <div class="content">
-            <h2 class="sad-text">Ok, ummm... 😭</h2>
-            <p class="response-text">You just said you love me and now saying you don't want to meet...</p>
-            <p class="understanding-text">No problem 💪, it's up to you, I will wait when you are ready ❤️</p>
+            <p class="understanding-text">No problem at all ❤️ Take your time, and whenever you feel ready, I’ll be right here.</p>
             <button class="btn btn-next" onclick="showNextChoice()">Continue ➡️</button>
         </div>
     </div>
@@ -232,7 +227,7 @@
         <div class="content">
             <h2 class="choice-text">So what do you think? 💭</h2>
             <div class="buttons">
-                <button class="btn btn-accept" onclick="showAcceptConfirm()">You accept me and will date 💕</button>
+                <button class="btn btn-accept" onclick="showAcceptConfirm()">You feel the same, and want to be with me 💕</button>
                 <button class="btn btn-reasons-not" onclick="showReasonsNot(1)">Reasons you should NOT date me 😏</button>
             </div>
         </div>
@@ -281,11 +276,20 @@
     <!-- Final choice -->
     <div class="container screen" id="final-choice" style="display: none;">
         <div class="content">
-            <h2 class="final-text">So, Will you be my valentine? 💕</h2>
+            <h2 class="final-text">So, will you be mine, now and forever? 💕</h2>
             <div class="buttons">
                 <button class="btn btn-yes" onclick="showAcceptConfirm()">Yes! 😍</button>
                 <button class="btn btn-no moving-no" id="moving-no" onclick="moveNoButton()">No 😅</button>
             </div>
+        </div>
+    </div>
+
+    <div class="container screen" id="no-choice-response" style="display: none;">
+        <div class="content">
+            <h2 class="sad-text">Okay... I won’t force you 💌</h2>
+            <p class="response-text">If your answer is no, I’ll respect it with all my heart. Some feelings are too real to hide, but never so selfish that they should be forced.</p>
+            <p class="understanding-text">Still... you look far too beautiful for me to pretend I don’t feel all this. If I ever seem a little lost around you, maybe it’s just because you have that effect on me. 💕</p>
+            <button class="btn btn-next" onclick="showConfession()">Let me tell you one last thing ✨</button>
         </div>
     </div>
 
@@ -332,15 +336,6 @@
             <h2 class="final-thanks-text">Thank you so much! 💕</h2>
             <p class="thanks-message">Your response means everything to me ❤️</p>
             <div class="heart-animation">💖💖💖</div>
-            
-            <div class="contact-info">
-                <h3 class="contact-title">Let's stay in touch! 😊</h3>
-                <div class="contact-details">
-                    <p class="snapchat-info">
-                          Snapchat:
-                    </p>
-                </div>
-            </div>
         </div>
     </div>
 

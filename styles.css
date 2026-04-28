@@ -286,16 +286,6 @@ body {
     box-shadow: 0 10px 20px rgba(102, 126, 234, 0.4);
 }
 
-.btn-love {
-    background: linear-gradient(45deg, #ff6b6b, #ee5a52);
-    color: white;
-}
-
-.btn-love:hover {
-    transform: translateY(-2px);
-    box-shadow: 0 10px 20px rgba(255, 107, 107, 0.4);
-}
-
 .btn-next {
     background: linear-gradient(45deg, #4ecdc4, #44a08d);
     color: white;
