@@ -66,7 +66,7 @@
             </div>
             
             <div class="playlist">
-                <div class="playlist-header">For Vishu 💕</div>
+                <div class="playlist-header">For Aadhya 💕</div>
                 <div class="song-message-container" id="song-message-container">
                     <div class="song-message-text" id="song-message-text"> Select a song to see its message</div>
                 </div>
@@ -100,11 +100,14 @@
     <!-- Landing Page -->
     <div class="container" id="landing-page">
         <div class="content">
-            <h1 class="main-text">Vishu, I have something special to tell you... ✨</h1>
+            <h1 class="main-text">Aadhya, I have something special to tell you... ✨</h1>
             <div class="buttons">
                 <button class="btn btn-primary" onclick="goToReasons()">
                     Reasons you should date me 😏
                     <div class="byline">BY: me obviously 😎</div>
+                </button>
+                <button class="btn btn-love" onclick="goToLoveToo()">
+                    I love you too ❤️
                 </button>
             </div>
         </div>
@@ -217,7 +220,9 @@
     <!-- No meet response -->
     <div class="container screen" id="no-meet-response" style="display: none;">
         <div class="content">
-            <p class="understanding-text">No problem at all ❤️ Take your time, and whenever you feel ready, I’ll be right here.</p>
+            <h2 class="sad-text">Ok, ummm... 😭</h2>
+            <p class="response-text">You just said you love me and now saying you don't want to meet...</p>
+            <p class="understanding-text">No problem 💪, it's up to you, I will wait when you are ready ❤️</p>
             <button class="btn btn-next" onclick="showNextChoice()">Continue ➡️</button>
         </div>
     </div>
@@ -227,7 +232,7 @@
         <div class="content">
             <h2 class="choice-text">So what do you think? 💭</h2>
             <div class="buttons">
-                <button class="btn btn-accept" onclick="showAcceptConfirm()">You feel the same, and want to be with me 💕</button>
+                <button class="btn btn-accept" onclick="showAcceptConfirm()">You accept me and will date 💕</button>
                 <button class="btn btn-reasons-not" onclick="showReasonsNot(1)">Reasons you should NOT date me 😏</button>
             </div>
         </div>
@@ -276,20 +281,11 @@
     <!-- Final choice -->
     <div class="container screen" id="final-choice" style="display: none;">
         <div class="content">
-            <h2 class="final-text">So, will you be mine, now and forever? 💕</h2>
+            <h2 class="final-text">So, Will you be my valentine? 💕</h2>
             <div class="buttons">
                 <button class="btn btn-yes" onclick="showAcceptConfirm()">Yes! 😍</button>
                 <button class="btn btn-no moving-no" id="moving-no" onclick="moveNoButton()">No 😅</button>
             </div>
-        </div>
-    </div>
-
-    <div class="container screen" id="no-choice-response" style="display: none;">
-        <div class="content">
-            <h2 class="sad-text">Okay... I won’t force you 💌</h2>
-            <p class="response-text">If your answer is no, I’ll respect it with all my heart. Some feelings are too real to hide, but never so selfish that they should be forced.</p>
-            <p class="understanding-text">Still... you look far too beautiful for me to pretend I don’t feel all this. If I ever seem a little lost around you, maybe it’s just because you have that effect on me. 💕</p>
-            <button class="btn btn-next" onclick="showConfession()">Let me tell you one last thing ✨</button>
         </div>
     </div>
 
@@ -298,10 +294,10 @@
         <div class="content confession-content">
             <h2 class="confession-title">My Confession 💌</h2>
             <div class="confession-text">
-                <p>Hey… I just wanted to tell you something I’ve been feeling for a while ❤️<br>I think I’m completely in love with you… like, truly. The way you look at me, your smile, the way you talk—everything about you just pulls me in. I get lost in you without even trying 👀</p>
-                <p>You’ve become my favorite distraction, the one thought that keeps coming back no matter what I’m doing. And honestly, I don’t even want it to stop.</p>
-                <p>There’s so much more I want to say… maybe I’ll tell you properly when we’re together, face to face. But just know this—being with you turns even the simplest moments into something special.</p>
-                <p>You’ve been living rent-free in my heart for so long now 🫀<br>And I don’t mind at all… because I’m already yours 💞<br>And haa jo bhi humne soch rkha he mon ko I wish ki everything should go according to our plan or better than that .... I just not want any obstacle toh come in b/w</p>
+                <p>Aadhya, I don’t know if these words will ever be enough, but I still wanted to say them honestly. Somewhere between your smile, your eyes, and the quiet way you stay on my mind, you became someone deeply special to me. What I feel for you is not small, and it is not passing. It is the kind of feeling that lingers in the heart and makes even ordinary days feel a little softer, a little brighter, and a lot more meaningful. ❤️</p>
+                <p>You’ve become the thought I return to without trying, the person who can make my heart feel full with just a memory, a glance, or the sound of your name. There is something about you that pulls me in so gently and so completely that I find pieces of you in every quiet moment of my day. And the truth is, I don’t even want to escape it, because caring for you feels like the most beautiful thing my heart has ever learned. ✨</p>
+                <p>I’m not saying all this to rush you, pressure you, or ask your heart for something it is not ready to give. I only wanted to be brave enough, for once, to be completely real with you. If love is meant to be patient, then I can be patient. If feelings are meant to be proven softly, then I would rather show mine through honesty, care, and the way I would treasure every little moment we share. 💫</p>
+                <p>And if someday your heart ever finds a place for me, I promise I will hold it with gentleness, loyalty, and all the love I have in me. Until then, I just want you to know this: you are precious to me in a way I cannot fully explain, and no matter what happens, a part of my heart will always be grateful for you. Because before anything else, you made me feel something rare, something deep, and something truly beautiful. 💞</p>
             </div>
             
             <div class="rating-section">
@@ -337,6 +333,14 @@
             <p class="thanks-message">Your response means everything to me ❤️</p>
             <div class="heart-animation">💖💖💖</div>
             
+            <div class="contact-info">
+                <h3 class="contact-title">Let's stay in touch! 😊</h3>
+                <div class="contact-details">
+                    <p class="snapchat-info">
+                          Snapchat:
+                    </p>
+                </div>
+            </div>
         </div>
     </div>
 
