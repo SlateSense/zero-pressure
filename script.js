@@ -124,6 +124,25 @@ function showMusicPlayerMessage() {
     return;
 }
 
+function setupMobileBrowserOptimizations() {
+    const userAgent = navigator.userAgent || '';
+    const isInstagramBrowser = /Instagram/i.test(userAgent);
+
+    document.body.classList.toggle('instagram-browser', isInstagramBrowser);
+
+    const updateAppHeight = () => {
+        document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
+    };
+
+    updateAppHeight();
+    window.addEventListener('resize', updateAppHeight, { passive: true });
+    window.addEventListener('orientationchange', updateAppHeight);
+
+    if (window.visualViewport) {
+        window.visualViewport.addEventListener('resize', updateAppHeight);
+    }
+}
+
 function populatePlaylist() {
     const songList = document.getElementById('song-list');
     songList.innerHTML = '';
@@ -720,6 +739,8 @@ function submitFeedback() {
 
 // Initialize everything when page loads
 document.addEventListener('DOMContentLoaded', function() {
+    setupMobileBrowserOptimizations();
+
     // Initialize music player
     initMusicPlayer();
     

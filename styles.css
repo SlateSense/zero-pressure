@@ -4,12 +4,23 @@
     box-sizing: border-box;
 }
 
+:root {
+    --app-height: 100dvh;
+}
+
+html {
+    -webkit-text-size-adjust: 100%;
+    text-size-adjust: 100%;
+}
+
 body {
     font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
     background: #0a0a0a;
     color: #ffffff;
     overflow-x: hidden;
     min-height: 100vh;
+    min-height: 100svh;
+    min-height: var(--app-height);
 }
 
 /* Custom Skyfield Background for Landing Page */
@@ -156,12 +167,15 @@ body {
     justify-content: center;
     align-items: center;
     min-height: 100vh;
-    padding: 20px;
+    min-height: 100svh;
+    min-height: var(--app-height);
+    padding: calc(20px + env(safe-area-inset-top)) max(16px, env(safe-area-inset-right)) max(20px, env(safe-area-inset-bottom)) max(16px, env(safe-area-inset-left));
     position: relative;
 }
 
 .content {
     text-align: center;
+    width: min(100%, 600px);
     max-width: 600px;
     animation: fadeInUp 1s ease-out;
 }
@@ -179,7 +193,7 @@ body {
 
 /* Typography */
 .main-text {
-    font-size: 2.5rem;
+    font-size: clamp(1.9rem, 6vw, 2.5rem);
     margin-bottom: 40px;
     background: linear-gradient(45deg, #ff6b6b, #ff8e8e, #ffa8a8);
     -webkit-background-clip: text;
@@ -194,44 +208,44 @@ body {
 }
 
 .reason-title {
-    font-size: 2rem;
+    font-size: clamp(1.55rem, 4.8vw, 2rem);
     margin-bottom: 20px;
     color: #ff6b6b;
 }
 
 .reason-text {
-    font-size: 1.8rem;
+    font-size: clamp(1.3rem, 4.8vw, 1.8rem);
     margin-bottom: 10px;
     font-weight: bold;
 }
 
 .reason-subtitle {
-    font-size: 1.2rem;
+    font-size: clamp(1rem, 3.4vw, 1.2rem);
     color: #ccc;
     margin-bottom: 30px;
     font-style: italic;
 }
 
 .surprise-text, .question-text, .choice-text, .final-text {
-    font-size: 2.2rem;
+    font-size: clamp(1.6rem, 5.4vw, 2.2rem);
     margin-bottom: 30px;
     color: #ff6b6b;
 }
 
 .happy-text {
-    font-size: 2.5rem;
+    font-size: clamp(1.9rem, 5.8vw, 2.5rem);
     color: #4ecdc4;
     margin-bottom: 20px;
 }
 
 .sad-text {
-    font-size: 2rem;
+    font-size: clamp(1.55rem, 4.8vw, 2rem);
     color: #ffa726;
     margin-bottom: 20px;
 }
 
 .response-text, .understanding-text {
-    font-size: 1.3rem;
+    font-size: clamp(1.05rem, 3.6vw, 1.3rem);
     margin-bottom: 20px;
     line-height: 1.6;
 }
@@ -246,6 +260,8 @@ body {
     flex-direction: column;
     gap: 20px;
     align-items: center;
+    width: min(100%, 360px);
+    margin-inline: auto;
 }
 
 .btn {
@@ -256,7 +272,10 @@ body {
     cursor: pointer;
     transition: all 0.3s ease;
     font-weight: bold;
-    min-width: 300px;
+    width: 100%;
+    max-width: 100%;
+    min-width: 0;
+    line-height: 1.35;
     position: relative;
     overflow: hidden;
 }
@@ -401,13 +420,14 @@ body {
 
 /* Confession Page */
 .confession-content {
+    width: min(100%, 800px);
     max-width: 800px;
     text-align: left;
 }
 
 .confession-title {
     text-align: center;
-    font-size: 2.5rem;
+    font-size: clamp(1.9rem, 5.8vw, 2.5rem);
     margin-bottom: 30px;
     color: #ff6b6b;
 }
@@ -499,22 +519,22 @@ body {
 
 /* Final Thanks */
 .final-thanks-text {
-    font-size: 2.5rem;
+    font-size: clamp(1.9rem, 5.8vw, 2.5rem);
     color: #4ecdc4;
     margin-bottom: 20px;
 }
 
 .thanks-message {
-    font-size: 1.3rem;
+    font-size: clamp(1.05rem, 3.6vw, 1.3rem);
     margin-bottom: 30px;
 }
 
 /* Music Player Styles - Glass Morphism */
 .music-player {
     position: fixed;
-    top: 20px;
-    right: 20px;
-    width: 320px;
+    top: max(12px, env(safe-area-inset-top));
+    right: max(12px, env(safe-area-inset-right));
+    width: min(320px, calc(100vw - 24px));
     background: rgba(255, 255, 255, 0.08);
     backdrop-filter: blur(25px) saturate(180%);
     -webkit-backdrop-filter: blur(25px) saturate(180%);
@@ -1041,6 +1061,16 @@ body {
 
 /* Mobile Responsiveness */
 @media (max-width: 768px) {
+    #landing-page {
+        background-attachment: scroll;
+        background-position: center top;
+    }
+
+    .container {
+        padding-top: calc(92px + env(safe-area-inset-top));
+        padding-bottom: max(24px, env(safe-area-inset-bottom));
+    }
+
     .music-player {
         width: calc(100vw - 20px);
         max-width: 350px;
@@ -1052,6 +1082,8 @@ body {
     
     .player-content {
         padding: 12px;
+        max-height: calc(var(--app-height) - 92px - env(safe-area-inset-top) - env(safe-area-inset-bottom));
+        overflow-y: auto;
     }
     
     .current-song {
@@ -1210,39 +1242,48 @@ body {
 /* Responsive */
 @media (max-width: 768px) {
     .main-text {
-        font-size: 1.8rem;
+        font-size: clamp(1.65rem, 5.8vw, 1.95rem);
     }
     
     .btn {
-        min-width: 250px;
         font-size: 1.1rem;
+        padding: 14px 18px;
     }
     
     .content {
-        padding: 10px;
+        width: min(100%, 560px);
+        padding: 10px 4px;
     }
     
     .confession-content {
+        width: min(100%, 560px);
         max-width: 90%;
     }
     
     .buttons {
         gap: 15px;
+        max-width: 340px;
     }
 }
 
 @media (max-width: 480px) {
     .main-text {
-        font-size: 1.5rem;
+        font-size: clamp(1.45rem, 7vw, 1.75rem);
     }
     
     .btn {
-        min-width: 200px;
         padding: 12px 20px;
+        font-size: 1rem;
     }
     
     .reason-text {
-        font-size: 1.5rem;
+        font-size: clamp(1.2rem, 5.8vw, 1.45rem);
+    }
+
+    .confession-text,
+    .rating-section,
+    .message-section {
+        padding: 18px;
     }
     
     .stars-rating {
@@ -1252,4 +1293,26 @@ body {
     .star {
         font-size: 1.5rem;
     }
+}
+
+.instagram-browser #landing-page {
+    background-attachment: scroll;
+}
+
+.instagram-browser .container {
+    padding-top: calc(98px + env(safe-area-inset-top));
+}
+
+.instagram-browser .main-text {
+    font-size: clamp(1.55rem, 6vw, 2.15rem);
+}
+
+.instagram-browser .btn {
+    font-size: 1rem;
+    padding: 13px 18px;
+}
+
+.instagram-browser .music-player {
+    top: max(8px, env(safe-area-inset-top));
+    width: min(300px, calc(100vw - 20px));
 }
