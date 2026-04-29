@@ -124,6 +124,15 @@ function showMusicPlayerMessage() {
     return;
 }
 
+function showLandingPage() {
+    hideAllScreens();
+    const landingPage = document.getElementById('landing-page');
+    if (landingPage) {
+        landingPage.style.display = 'flex';
+        landingPage.style.opacity = '1';
+    }
+}
+
 function setupMobileBrowserOptimizations() {
     const userAgent = navigator.userAgent || '';
     const isInstagramBrowser = /Instagram/i.test(userAgent);
@@ -203,6 +212,110 @@ function togglePlayer() {
     toggle.textContent = player.classList.contains('minimized') ? '+' : '−';
 }
 
+function playAudioWhenReady() {
+    if (!audio) return;
+
+    const playBtn = document.getElementById('play-pause');
+    const visualizer = document.getElementById('audio-visualizer');
+
+    const startPlayback = () => {
+        const playPromise = audio.play();
+
+        if (playPromise !== undefined) {
+            playPromise.then(() => {
+                playBtn.textContent = '⏸';
+                isPlaying = true;
+                if (visualizer) visualizer.classList.add('playing');
+                console.log(`Successfully started ${playlist[currentSongIndex].name}`);
+            }).catch(e => {
+                console.error('Play failed:', e.name, ':', e.message);
+                console.error('Audio currentSrc:', audio.currentSrc);
+                console.error('Audio networkState:', audio.networkState);
+                playBtn.textContent = '▶';
+                isPlaying = false;
+            });
+        }
+    };
+
+    if (audio.readyState >= 2) {
+        startPlayback();
+        return;
+    }
+
+    audio.addEventListener('canplay', startPlayback, { once: true });
+
+    if (audio.readyState === 0) {
+        audio.load();
+    }
+}
+
+function resetFeedbackForm() {
+    selectedRating = 0;
+
+    const ratingDisplay = document.getElementById('rating-display');
+    if (ratingDisplay) {
+        ratingDisplay.textContent = 'Click stars to rate';
+    }
+
+    const messageInput = document.getElementById('message');
+    if (messageInput) {
+        messageInput.value = '';
+    }
+
+    const stars = document.querySelectorAll('.star');
+    stars.forEach(star => {
+        star.classList.remove('active');
+        star.style.filter = '';
+        star.style.transform = '';
+    });
+}
+
+function resetMusicPlayerState() {
+    const player = document.getElementById('music-player');
+    const toggle = document.querySelector('.player-toggle');
+    const visualizer = document.getElementById('audio-visualizer');
+    const playBtn = document.getElementById('play-pause');
+
+    if (player) {
+        player.classList.add('minimized');
+    }
+
+    if (toggle) {
+        toggle.textContent = '+';
+    }
+
+    if (visualizer) {
+        visualizer.classList.remove('playing');
+    }
+
+    if (playBtn) {
+        playBtn.textContent = '▶';
+    }
+
+    if (audio) {
+        audio.pause();
+        audio.currentTime = 0;
+    }
+
+    isPlaying = false;
+    currentSongIndex = 0;
+
+    if (playlist.length > 0 && audio) {
+        loadSong(0, { showMessage: false });
+    }
+}
+
+function resetExperience() {
+    showLandingPage();
+    closeSongMessage();
+    closeTasteMessage();
+    tasteMessageShown = false;
+    noClickCount = 0;
+    resetFinalChoiceButton();
+    resetFeedbackForm();
+    resetMusicPlayerState();
+}
+
 function togglePlay() {
     const playBtn = document.getElementById('play-pause');
     const visualizer = document.getElementById('audio-visualizer');
@@ -224,9 +337,6 @@ function togglePlay() {
         if (!audio.src || audio.src === window.location.href) {
             console.log('No audio source, loading first song');
             loadSong(0);
-            // Wait a bit then try to play
-            setTimeout(() => togglePlay(), 1000);
-            return;
         }
         
         console.log('Attempting to play audio...');
@@ -237,33 +347,13 @@ function togglePlay() {
             audio.load();
         }
         
-        const playPromise = audio.play();
-        
-        if (playPromise !== undefined) {
-            playPromise.then(() => {
-                playBtn.textContent = '⏸';
-                isPlaying = true;
-                if (visualizer) visualizer.classList.add('playing');
-                console.log('Successfully started playing audio');
-                
-                // Disabled automatic taste message
-                // if (!tasteMessageShown && !playlistStartTime) {
-                //     playlistStartTime = Date.now();
-                //     setTimeout(showTasteMessage, 4000);
-                // }
-            }).catch(e => {
-                console.error('Play failed:', e.name, ':', e.message);
-                console.error('Audio currentSrc:', audio.currentSrc);
-                console.error('Audio networkState:', audio.networkState);
-                playBtn.textContent = '▶';
-                isPlaying = false;
-            });
-        }
+        playAudioWhenReady();
     }
 }
 
-function loadSong(index) {
+function loadSong(index, options = {}) {
     if (index >= 0 && index < playlist.length) {
+        const { showMessage = true } = options;
         currentSongIndex = index;
         const song = playlist[index];
         
@@ -286,10 +376,12 @@ function loadSong(index) {
             console.error('Error setting audio source:', e);
         }
         
-        // Show song message
-        setTimeout(() => {
-            showSongMessage(song.message);
-        }, 500);
+        if (showMessage) {
+            // Show song message
+            setTimeout(() => {
+                showSongMessage(song.message);
+            }, 500);
+        }
         
         // Reset play button to play state
         document.getElementById('play-pause').textContent = '▶';
@@ -435,38 +527,16 @@ function goToReasons() {
     showScreen('reason-1');
     
     // Start music playback since this is a user interaction!
-    setTimeout(() => {
-        if (playlist.length > 0 && audio) {
-            console.log('Starting music from button click - bypassing autoplay restrictions');
-            
-            // Load first song if not already loaded
-            if (!audio.src || currentSongIndex < 0) {
-                loadSong(0);
-            }
-            
-            // Wait a moment for song to load, then play
-            setTimeout(() => {
-                const playBtn = document.getElementById('play-pause');
-                const visualizer = document.getElementById('audio-visualizer');
-                
-                audio.play().then(() => {
-                    playBtn.textContent = '⏸';
-                    isPlaying = true;
-                    if (visualizer) visualizer.classList.add('playing');
-                    console.log(`Successfully started ${playlist[currentSongIndex].name} after button click!`);
-                    
-                    // Disabled automatic taste message
-                    // if (!tasteMessageShown && !playlistStartTime) {
-                    //     playlistStartTime = Date.now();
-                    //     setTimeout(showTasteMessage, 4000);
-                    // }
-                }).catch(e => {
-                    console.log('Music start failed:', e);
-                    // Don't worry if it fails, music player is still available
-                });
-            }, 800);
+    if (playlist.length > 0 && audio) {
+        console.log('Starting music from button click - bypassing autoplay restrictions');
+        
+        // Load first song if not already loaded
+        if (!audio.src || audio.src === window.location.href || currentSongIndex < 0) {
+            loadSong(0);
         }
-    }, 200);
+        
+        playAudioWhenReady();
+    }
 }
 
 function goToLoveToo() {
@@ -768,13 +838,11 @@ document.addEventListener('DOMContentLoaded', function() {
         musicPlayer.style.transform = 'translateY(0)';
     }, 1000);
     
-    // Load first song after page loads
-    setTimeout(() => {
-        if (playlist.length > 0 && audio) {
-            console.log('Loading first song on page load');
-            loadSong(0);
-        }
-    }, 2000);
+    // Preload first song immediately so user-initiated play starts faster
+    if (playlist.length > 0 && audio) {
+        console.log('Preloading first song on page load');
+        loadSong(0, { showMessage: false });
+    }
     // Add click effect to all buttons
     const buttons = document.querySelectorAll('.btn');
     buttons.forEach(button => {
@@ -801,6 +869,24 @@ document.addEventListener('DOMContentLoaded', function() {
     
     // Add floating hearts occasionally
     setInterval(createFloatingHeart, 10000);
+});
+
+window.addEventListener('pagehide', function() {
+    sessionStorage.setItem('resetCrushSiteOnReturn', '1');
+});
+
+window.addEventListener('pageshow', function(event) {
+    const shouldReset =
+        sessionStorage.getItem('resetCrushSiteOnReturn') === '1' ||
+        event.persisted ||
+        performance.getEntriesByType('navigation')[0]?.type === 'back_forward';
+
+    if (!shouldReset) {
+        return;
+    }
+
+    sessionStorage.removeItem('resetCrushSiteOnReturn');
+    resetExperience();
 });
 
 function createFloatingHeart() {
