@@ -1,7 +1,6 @@
 // Global variables
 let noClickCount = 0;
 let selectedRating = 0;
-let isInstagramBrowser = false;
 
 // Music Player Variables
 let currentSongIndex = 0;
@@ -125,75 +124,11 @@ function showMusicPlayerMessage() {
     return;
 }
 
-function setBrowserPromptHint(message) {
-    const hint = document.getElementById('browser-prompt-hint');
-    if (hint) {
-        hint.textContent = message;
-    }
-}
-
-function showBrowserPrompt() {
-    const prompt = document.getElementById('browser-prompt');
-    if (!prompt) return;
-
-    prompt.hidden = false;
-    requestAnimationFrame(() => {
-        prompt.classList.add('show');
-    });
-}
-
-function dismissBrowserPrompt() {
-    const prompt = document.getElementById('browser-prompt');
-    if (!prompt) return;
-
-    prompt.classList.remove('show');
-    setTimeout(() => {
-        prompt.hidden = true;
-    }, 220);
-}
-
-function tryOpenInBrowser() {
-    setBrowserPromptHint('If Instagram keeps this inside the app, tap the ••• menu and choose Open in browser.');
-
-    const link = document.createElement('a');
-    link.href = window.location.href;
-    link.target = '_blank';
-    link.rel = 'noopener noreferrer';
-    document.body.appendChild(link);
-    link.click();
-    link.remove();
-}
-
-async function copyPageLink() {
-    const url = window.location.href;
-
-    try {
-        if (navigator.clipboard && navigator.clipboard.writeText) {
-            await navigator.clipboard.writeText(url);
-        } else {
-            const tempInput = document.createElement('input');
-            tempInput.value = url;
-            document.body.appendChild(tempInput);
-            tempInput.select();
-            document.execCommand('copy');
-            tempInput.remove();
-        }
-
-        setBrowserPromptHint('Link copied. If needed, paste it into Chrome or Safari.');
-    } catch (error) {
-        setBrowserPromptHint('If copy does not work here, tap the ••• menu and choose Open in browser.');
-    }
-}
-
 function setupMobileBrowserOptimizations() {
     const userAgent = navigator.userAgent || '';
-    isInstagramBrowser = /Instagram/i.test(userAgent);
+    const isInstagramBrowser = /Instagram/i.test(userAgent);
 
     document.body.classList.toggle('instagram-browser', isInstagramBrowser);
-
-    if (isInstagramBrowser) {
-        showBrowserPrompt();
-    }
 
     const updateAppHeight = () => {
         document.documentElement.style.setProperty('--app-height', `${window.innerHeight}px`);
@@ -585,6 +520,7 @@ function showNoChoiceResponse() {
 function resetFinalChoiceButton() {
     const button = document.getElementById('moving-no');
     if (!button) return;
+    const buttonsContainer = button.parentElement;
 
     noClickCount = 0;
     button.textContent = 'No 😅';
@@ -593,23 +529,36 @@ function resetFinalChoiceButton() {
     button.style.top = '';
     button.style.zIndex = '';
     button.style.animation = '';
+    if (buttonsContainer) {
+        buttonsContainer.style.minHeight = '';
+    }
 }
 
 // Moving "No" button functionality
 function moveNoButton() {
     const button = document.getElementById('moving-no');
     const container = button.closest('.container') || button.parentElement;
+    const buttonsContainer = button.parentElement;
     
     noClickCount++;
     
     if (noClickCount < 3) {
+        if (buttonsContainer && !buttonsContainer.style.minHeight) {
+            buttonsContainer.style.minHeight = `${buttonsContainer.offsetHeight}px`;
+        }
+
         const containerRect = container.getBoundingClientRect();
         const buttonRect = button.getBoundingClientRect();
+        const musicPlayer = document.getElementById('music-player');
+        const playerRect = musicPlayer ? musicPlayer.getBoundingClientRect() : null;
         const padding = 20;
         let xMin = padding;
         let yMin = padding;
         let xMax = containerRect.width - buttonRect.width - padding;
         let yMax = containerRect.height - buttonRect.height - padding;
+        if (playerRect) {
+            yMin = Math.max(yMin, playerRect.bottom - containerRect.top + padding);
+        }
         const yesBtn = (button.closest('.container') || button.parentElement).querySelector('.btn-yes');
         const yesRect = yesBtn ? yesBtn.getBoundingClientRect() : null;
         if (yMax <= yMin) { yMin = padding; yMax = containerRect.height - buttonRect.height - padding; }
