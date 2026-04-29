@@ -47,6 +47,10 @@ body {
     z-index: 3;
 }
 
+#landing-page .buttons {
+    width: min(100%, 320px);
+}
+
 @keyframes breathe {
     0%, 100% { 
         background: rgba(0, 0, 0, 0.3);
@@ -1264,6 +1268,10 @@ body {
         gap: 15px;
         max-width: 340px;
     }
+
+    #landing-page .buttons {
+        max-width: 312px;
+    }
 }
 
 @media (max-width: 480px) {
@@ -1278,6 +1286,19 @@ body {
     
     .reason-text {
         font-size: clamp(1.2rem, 5.8vw, 1.45rem);
+    }
+
+    #landing-page .buttons {
+        max-width: 296px;
+    }
+
+    #landing-page .btn-primary {
+        font-size: 0.96rem;
+        padding: 12px 16px;
+    }
+
+    #landing-page .byline {
+        font-size: 0.8rem;
     }
 
     .confession-text,
